@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Live stream</h2>
+<video id="video" controls autoplay></video>
+
+<script>
+const video = document.getElementById("video");
+const ws = new WebSocket("ws://localhost:6000/view");
+
+const mediaSource = new MediaSource();
+video.src = URL.createObjectURL(mediaSource);
+
+let sourceBuffer;
+
+mediaSource.addEventListener("sourceopen", () => {
+  sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+});
+
+ws.onmessage = async (event) => {
+  if (typeof event.data === "string") return;
+
+  const buf = await event.data.arrayBuffer();
+
+  if (!sourceBuffer.updating) {
+    sourceBuffer.appendBuffer(buf);
+  }
+};
+</script>
+
+</body>
+</html>
