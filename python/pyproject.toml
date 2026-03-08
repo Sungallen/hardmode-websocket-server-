@@ -1,0 +1,20 @@
+[project]
+name = "reachy-agents"
+version = "0.1.0"
+description = "Multi-agent perception system for Reachy Mini robot companion"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.40",
+    "paho-mqtt>=2.0",
+    "opencv-python>=4.8",
+    "gtts>=2.5",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+robot = [
+    "reachy_sdk",
+]

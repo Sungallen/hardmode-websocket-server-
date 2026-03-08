@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Sunflower Garden Demo",
+    "total_duration_seconds": 60,
+    "loop": false
+  },
+  "scenes": [
+    {
+      "id": "single_sunflower",
+      "start_seconds": 0,
+      "end_seconds": 30,
+      "metadata": {
+        "object": "sunflower",
+        "description": "A tall yellow sunflower with a dark brown center, bright petals reaching toward the sun",
+        "location_hint": "center",
+        "category": "nature",
+        "suggested_actions": ["count the petals", "look at the seeds in the center", "smell it"]
+      },
+      "agent_hints": {
+        "body-agent": "A single sunflower is right ahead. Show gentle curiosity, lean in to examine the petals closely.",
+        "rover-agent": "A sunflower is straight ahead. Drive forward slowly to get a closer look.",
+        "butterfly-agent": "A sunflower! Fly to it eagerly and circle around it, looking for nectar.",
+        "identify-agent": "Use WONDER mode. Talk about how sunflowers follow the sun across the sky. Be amazed by the spiral pattern of seeds in the center."
+      },
+      "discoveries": [
+        {
+          "at_seconds": 20,
+          "source_agent": "butterfly-agent",
+          "object": "sunflower field",
+          "description": "Butterfly flew up high and spotted a whole field of sunflowers stretching out to the right! There must be hundreds of them!",
+          "location_hint": "right",
+          "category": "nature",
+          "suggested_actions": ["count how many you can see", "find the tallest one", "look for bees visiting them"]
+        }
+      ]
+    },
+    {
+      "id": "sunflower_field",
+      "start_seconds": 30,
+      "end_seconds": 60,
+      "metadata": {
+        "object": "sunflower field",
+        "description": "A huge field of bright yellow sunflowers stretching as far as you can see, all facing the same direction",
+        "location_hint": "center",
+        "category": "nature",
+        "suggested_actions": ["find the tallest sunflower", "spot a bee", "guess how many there are"]
+      },
+      "agent_hints": {
+        "body-agent": "A whole field of sunflowers! Look around excitedly, wiggle with delight at how many there are.",
+        "rover-agent": "A sunflower field to explore! Drive along the edge slowly, taking it all in.",
+        "butterfly-agent": "So many flowers! Fly between the sunflowers, hopping from one to the next.",
+        "identify-agent": "Use CHALLENGE mode. Challenge the child to guess how many sunflowers are in the field. Talk about how sunflowers grow in groups and all face the same direction."
+      },
+      "discoveries": [
+        {
+          "at_seconds": 45,
+          "source_agent": "butterfly-agent",
+          "object": "baby sunflower",
+          "description": "Butterfly found a tiny baby sunflower growing between the big ones! It's just starting to open its petals!",
+          "location_hint": "left",
+          "category": "nature",
+          "suggested_actions": ["cheer it on", "guess how tall it will grow", "compare it to the big ones"]
+        }
+      ]
+    }
+  ]
+}
