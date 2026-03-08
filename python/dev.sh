@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Start the full multi-agent stack for local development.
+# Start the full stack: bun server + Python multi-agent system.
 #
 # Usage:
 #   ./python/dev.sh                                    # Disk mode (reads from recordings/)
@@ -9,8 +9,9 @@
 #   ./python/dev.sh --image python/test_sunflower.jpg  # Static image
 #   ./python/dev.sh --script=python/demos/example_demo.json  # Choreographed demo
 #   ./python/dev.sh --no-claude                        # Deterministic only
+#   ./python/dev.sh --no-server                        # Skip bun server.ts
 #
-# Ctrl-C to stop all agents.
+# Ctrl-C to stop everything.
 
 set -e
 
@@ -30,10 +31,12 @@ CLAUDE_FLAG=""
 USER_ID="a0975671396@gmail.com"
 SOURCE_FLAG="--disk $REPO_ROOT/recordings/$USER_ID/latest.jpg"
 SCRIPT_FLAG=""
+START_SERVER=true
 
 for arg in "$@"; do
     case "$arg" in
         --no-claude)  CLAUDE_FLAG="--no-claude" ;;
+        --no-server)  START_SERVER=false ;;
         --demo)       SOURCE_FLAG="--demo" ;;
         --image=*)    SOURCE_FLAG="--image ${arg#*=}" ;;
         --script=*)   SCRIPT_FLAG="--demo-script ${arg#*=}" ;;
@@ -52,13 +55,21 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-echo "=== Reachy Agents — Multi-Agent Stack ==="
+echo "=== Reachy Agents — Full Stack ==="
 echo "  Repo root: $REPO_ROOT"
 echo "  Source: $SOURCE_FLAG"
 echo "  User: $USER_ID"
 echo "  Claude: ${CLAUDE_FLAG:-enabled}"
 echo "  Script: ${SCRIPT_FLAG:-none}"
+echo "  Server: ${START_SERVER}"
 echo ""
+
+# Start bun server.ts (WebSocket relay + HTTP frame server)
+if [ "$START_SERVER" = true ]; then
+    echo "Starting bun server.ts (WS:6000, HTTP:6001)..."
+    bun run "$REPO_ROOT/server.ts" &
+    sleep 1
+fi
 
 # Start agents in background
 python "$PYTHON_DIR/agents/rover_agent.py"     $CLAUDE_FLAG --http-port 8001 &
